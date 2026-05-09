@@ -1,0 +1,5 @@
+frames/
+test_*.jpg
+paypal_30.mp4
+__pycache__/
+*.pyc
