@@ -1,0 +1,706 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  background: #000;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage {
+  position: relative;
+  width: min(100vw, 1280px);
+  height: min(100vh, 720px);
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(108, 99, 255, 0.4);
+  border-radius: 8px;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+}
+.scene.active { opacity: 1; }
+
+.scene-title {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%) translateY(40px);
+  color: #fff;
+  font-size: clamp(24px, 4vw, 48px);
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(0,200,255,0.8), 4px 4px 0 #000;
+  opacity: 0;
+  z-index: 5;
+}
+.scene.active .scene-title {
+  animation: titleIn 0.8s 0.4s forwards;
+}
+@keyframes titleIn {
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ============ CENA 1: LOGO ============ */
+.scene-logo {
+  background: radial-gradient(circle at 50% 50%, #1a0d3d 0%, #000 70%);
+}
+
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(108,99,255,0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.2) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: perspective(500px) rotateX(60deg) translateY(50%);
+  animation: gridMove 4s linear infinite;
+}
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to { background-position: 0 50px; }
+}
+
+.logo-wrap {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+}
+
+.logo-text {
+  font-size: clamp(48px, 9vw, 120px);
+  color: #fff;
+  letter-spacing: 8px;
+  text-shadow:
+    0 0 30px #00d9ff,
+    0 0 60px #6c63ff,
+    4px 4px 0 #000;
+}
+.logo-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-60px) rotateX(90deg);
+}
+.scene-logo.active .logo-text span {
+  animation: letterDrop 0.5s forwards;
+}
+.scene-logo.active .logo-text span:nth-child(1) { animation-delay: 0.1s; }
+.scene-logo.active .logo-text span:nth-child(2) { animation-delay: 0.2s; }
+.scene-logo.active .logo-text span:nth-child(3) { animation-delay: 0.3s; }
+.scene-logo.active .logo-text span:nth-child(4) { animation-delay: 0.4s; }
+.scene-logo.active .logo-text span:nth-child(5) { animation-delay: 0.5s; }
+.scene-logo.active .logo-text span:nth-child(6) { animation-delay: 0.6s; }
+.scene-logo.active .logo-text span:nth-child(7) { animation-delay: 0.7s; }
+.scene-logo.active .logo-text span:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes letterDrop {
+  to { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+
+.tagline {
+  margin-top: 20px;
+  color: #00d9ff;
+  font-size: clamp(16px, 2vw, 28px);
+  letter-spacing: 12px;
+  opacity: 0;
+}
+.scene-logo.active .tagline {
+  animation: fadeUp 0.8s 1.2s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rays {
+  position: absolute;
+  inset: 0;
+  background:
+    conic-gradient(from 0deg, transparent 0%, rgba(0,217,255,0.15) 5%, transparent 10%,
+      transparent 25%, rgba(108,99,255,0.15) 30%, transparent 35%,
+      transparent 50%, rgba(255,200,0,0.15) 55%, transparent 60%,
+      transparent 75%, rgba(255,100,200,0.15) 80%, transparent 85%);
+  animation: spin 8s linear infinite;
+  opacity: 0.6;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============ CENA 2: ÔNIBUS DE BATALHA ============ */
+.scene-bus {
+  background: linear-gradient(to bottom, #4dc4ff 0%, #aee5ff 60%, #6ad17a 100%);
+}
+
+.sky { position: absolute; inset: 0; }
+
+.cloud {
+  position: absolute;
+  width: 120px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow:
+    20px -15px 0 -5px #fff,
+    50px -10px 0 0 #fff,
+    -20px -10px 0 -8px #fff;
+  opacity: 0.85;
+}
+.c1 { top: 15%; left: -15%; animation: cloudMove 12s linear infinite; }
+.c2 { top: 30%; left: -25%; animation: cloudMove 16s 2s linear infinite; transform: scale(0.7); }
+.c3 { top: 50%; left: -10%; animation: cloudMove 14s 4s linear infinite; transform: scale(1.2); }
+.c4 { top: 22%; left: -30%; animation: cloudMove 18s 1s linear infinite; transform: scale(0.9); }
+@keyframes cloudMove {
+  to { left: 120%; }
+}
+
+.island {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background:
+    linear-gradient(to bottom, #5cc66f, #3a8f4a 60%, #2d6b3a);
+  clip-path: polygon(
+    0 30%, 8% 25%, 15% 35%, 25% 20%, 35% 30%, 45% 22%,
+    55% 32%, 65% 18%, 75% 28%, 85% 24%, 92% 32%, 100% 28%,
+    100% 100%, 0 100%);
+}
+
+.battle-bus {
+  position: absolute;
+  top: 50%;
+  left: -200px;
+  width: 180px;
+  height: 240px;
+  animation: busFly 4s ease-in-out forwards;
+}
+.scene-bus.active .battle-bus { animation: busFly 4s ease-in-out forwards; }
+
+@keyframes busFly {
+  0% { left: -200px; top: 30%; }
+  50% { left: 50%; top: 35%; transform: translate(-50%, 0); }
+  100% { left: 110%; top: 45%; }
+}
+
+.balloon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 130px;
+  background: radial-gradient(circle at 30% 30%, #ff6b9d, #d63384 70%, #8b1d5c);
+  border-radius: 50% 50% 45% 45%;
+  box-shadow: inset -10px -20px 30px rgba(0,0,0,0.3);
+  animation: bob 1.5s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.ropes {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 30px;
+  border-left: 2px solid #333;
+  border-right: 2px solid #333;
+  border-bottom: 2px solid #333;
+}
+
+.bus {
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 70px;
+  background: linear-gradient(to bottom, #ffd54f, #ff9800);
+  border-radius: 8px;
+  border: 2px solid #5d4037;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+}
+
+.bus-window {
+  width: 22px;
+  height: 28px;
+  background: linear-gradient(to bottom, #b3e5fc, #4fc3f7);
+  border: 1px solid #5d4037;
+  border-radius: 3px;
+}
+
+.bus-wheel {
+  position: absolute;
+  bottom: -10px;
+  width: 22px;
+  height: 22px;
+  background: #212121;
+  border-radius: 50%;
+  border: 3px solid #424242;
+}
+.bus-wheel.left { left: 12px; }
+.bus-wheel.right { right: 12px; }
+
+/* ============ CENA 3: PARAQUEDISMO ============ */
+.scene-skydive {
+  background: linear-gradient(to bottom, #1e3c72 0%, #2a5298 50%, #6dd5ed 100%);
+}
+
+.sky-deep {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center bottom, rgba(255,255,255,0.3), transparent);
+}
+
+.wind-lines span {
+  position: absolute;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6), transparent);
+  animation: wind 0.5s linear infinite;
+}
+.wind-lines span:nth-child(1) { left: 10%; top: -80px; animation-delay: 0s; }
+.wind-lines span:nth-child(2) { left: 22%; top: -80px; animation-delay: 0.1s; }
+.wind-lines span:nth-child(3) { left: 35%; top: -80px; animation-delay: 0.2s; }
+.wind-lines span:nth-child(4) { left: 70%; top: -80px; animation-delay: 0.05s; }
+.wind-lines span:nth-child(5) { left: 85%; top: -80px; animation-delay: 0.15s; }
+.wind-lines span:nth-child(6) { left: 92%; top: -80px; animation-delay: 0.25s; }
+.wind-lines span:nth-child(7) { left: 5%; top: -80px; animation-delay: 0.3s; }
+.wind-lines span:nth-child(8) { left: 78%; top: -80px; animation-delay: 0.35s; }
+.wind-lines span:nth-child(9) { left: 45%; top: -80px; animation-delay: 0.4s; }
+.wind-lines span:nth-child(10) { left: 60%; top: -80px; animation-delay: 0.18s; }
+.wind-lines span:nth-child(11) { left: 15%; top: -80px; animation-delay: 0.22s; }
+.wind-lines span:nth-child(12) { left: 88%; top: -80px; animation-delay: 0.08s; }
+
+@keyframes wind {
+  to { top: 110%; }
+}
+
+.skydiver {
+  position: absolute;
+  left: 50%;
+  top: -100px;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 160px;
+}
+.scene-skydive.active .skydiver {
+  animation: skydive 4s ease-in forwards;
+}
+@keyframes skydive {
+  0% { top: -100px; transform: translateX(-50%) rotate(-5deg); }
+  100% { top: 60%; transform: translateX(-50%) rotate(0); }
+}
+
+.glider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 50px;
+  background: linear-gradient(to bottom, #ff5252, #d32f2f);
+  border-radius: 50% 50% 10% 10%;
+  border: 3px solid #b71c1c;
+  animation: gliderSwing 1.5s ease-in-out infinite;
+}
+@keyframes gliderSwing {
+  0%, 100% { transform: translateX(-50%) rotate(-3deg); }
+  50% { transform: translateX(-50%) rotate(3deg); }
+}
+
+.character {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 60px;
+  background: linear-gradient(to bottom, #ffb74d 0%, #ffb74d 30%, #1976d2 30%, #1976d2 100%);
+  border-radius: 8px 8px 4px 4px;
+  border: 2px solid #5d4037;
+}
+.character::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: #ffb74d;
+  border-radius: 50%;
+  border: 2px solid #5d4037;
+}
+
+/* ============ CENA 4: TEMPESTADE ============ */
+.scene-storm {
+  background: radial-gradient(circle, #4a148c 0%, #1a0033 70%, #000 100%);
+}
+
+.storm-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(225, 0, 255, 0.3), transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(100, 0, 200, 0.4), transparent 50%);
+  animation: stormPulse 3s ease-in-out infinite;
+}
+@keyframes stormPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.storm-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  border: 8px solid rgba(225, 0, 255, 0.8);
+  box-shadow:
+    0 0 60px rgba(225, 0, 255, 0.8),
+    inset 0 0 60px rgba(225, 0, 255, 0.5);
+}
+.scene-storm.active .storm-circle {
+  animation: stormShrink 4s ease-out forwards;
+}
+@keyframes stormShrink {
+  0% { width: 800px; height: 800px; opacity: 0.3; }
+  100% { width: 100px; height: 100px; opacity: 1; }
+}
+
+.lightning {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0);
+  pointer-events: none;
+}
+.scene-storm.active .lightning {
+  animation: flash 4s infinite;
+}
+@keyframes flash {
+  0%, 95%, 100% { background: rgba(255,255,255,0); }
+  96%, 99% { background: rgba(255,255,255,0.6); }
+}
+
+.rain span {
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, rgba(225, 0, 255, 0.8));
+  animation: rainfall 0.8s linear infinite;
+}
+.rain span:nth-child(1) { left: 5%; animation-delay: 0s; }
+.rain span:nth-child(2) { left: 15%; animation-delay: 0.2s; }
+.rain span:nth-child(3) { left: 25%; animation-delay: 0.4s; }
+.rain span:nth-child(4) { left: 35%; animation-delay: 0.1s; }
+.rain span:nth-child(5) { left: 45%; animation-delay: 0.3s; }
+.rain span:nth-child(6) { left: 55%; animation-delay: 0.5s; }
+.rain span:nth-child(7) { left: 65%; animation-delay: 0.15s; }
+.rain span:nth-child(8) { left: 75%; animation-delay: 0.35s; }
+.rain span:nth-child(9) { left: 85%; animation-delay: 0.55s; }
+.rain span:nth-child(10) { left: 95%; animation-delay: 0.25s; }
+.rain span:nth-child(11) { left: 10%; animation-delay: 0.45s; }
+.rain span:nth-child(12) { left: 30%; animation-delay: 0.65s; }
+.rain span:nth-child(13) { left: 50%; animation-delay: 0.05s; }
+.rain span:nth-child(14) { left: 70%; animation-delay: 0.75s; }
+.rain span:nth-child(15) { left: 90%; animation-delay: 0.4s; }
+
+@keyframes rainfall {
+  0% { top: -20px; }
+  100% { top: 100%; }
+}
+
+.storm-title {
+  color: #ff00ff !important;
+  text-shadow: 0 0 30px #ff00ff, 4px 4px 0 #000 !important;
+}
+
+/* ============ CENA 5: CONSTRUÇÃO ============ */
+.scene-build {
+  background: linear-gradient(to bottom, #ffb74d 0%, #ff9800 50%, #4caf50 100%);
+}
+
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to bottom, #4caf50, #2e7d32);
+}
+
+.grid-3d {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.3) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.3) 2px, transparent 2px);
+  background-size: 60px 60px;
+  transform: perspective(400px) rotateX(60deg);
+  transform-origin: bottom;
+}
+
+.build-wall {
+  position: absolute;
+  width: 100px;
+  height: 140px;
+  background: linear-gradient(135deg, #8d6e63, #5d4037);
+  border: 3px solid #3e2723;
+  opacity: 0;
+  transform: scale(0) rotate(0);
+}
+.build-wall::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed rgba(255,255,255,0.4);
+}
+
+.w1 { bottom: 30%; left: 30%; }
+.w2 { bottom: 30%; left: calc(30% + 100px); }
+.w3 { bottom: 30%; left: calc(30% + 200px); }
+.w4 { bottom: calc(30% + 140px); left: calc(30% + 100px); }
+
+.scene-build.active .w1 { animation: buildPop 0.4s 0.3s forwards; }
+.scene-build.active .w2 { animation: buildPop 0.4s 0.7s forwards; }
+.scene-build.active .w3 { animation: buildPop 0.4s 1.1s forwards; }
+.scene-build.active .w4 { animation: buildPop 0.4s 1.5s forwards; }
+
+@keyframes buildPop {
+  0% { opacity: 0; transform: scale(0) rotate(180deg); }
+  70% { opacity: 1; transform: scale(1.1) rotate(0); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.build-roof {
+  position: absolute;
+  bottom: calc(30% + 280px);
+  left: calc(30% + 50px);
+  width: 200px;
+  height: 60px;
+  background: linear-gradient(to top, #d32f2f, #b71c1c);
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  opacity: 0;
+  transform: translateY(-100px);
+}
+.scene-build.active .build-roof {
+  animation: roofDrop 0.5s 1.9s forwards;
+}
+@keyframes roofDrop {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ CENA 6: VICTORY ROYALE ============ */
+.scene-victory {
+  background: radial-gradient(ellipse at center, #ffd700 0%, #ff8f00 50%, #1a1a2e 100%);
+}
+
+.victory-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    conic-gradient(from 0deg, transparent 0deg, rgba(255,215,0,0.4) 30deg,
+      transparent 60deg, transparent 90deg, rgba(255,215,0,0.4) 120deg,
+      transparent 150deg, transparent 180deg, rgba(255,215,0,0.4) 210deg,
+      transparent 240deg, transparent 270deg, rgba(255,215,0,0.4) 300deg,
+      transparent 330deg, transparent 360deg);
+  animation: spin 6s linear infinite;
+}
+
+.confetti span {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  top: -20px;
+  animation: fall 3s linear infinite;
+}
+.confetti span:nth-child(1) { left: 5%; background: #ff5252; animation-delay: 0s; }
+.confetti span:nth-child(2) { left: 12%; background: #ffd740; animation-delay: 0.2s; }
+.confetti span:nth-child(3) { left: 19%; background: #69f0ae; animation-delay: 0.4s; }
+.confetti span:nth-child(4) { left: 26%; background: #40c4ff; animation-delay: 0.6s; }
+.confetti span:nth-child(5) { left: 33%; background: #ea80fc; animation-delay: 0.8s; }
+.confetti span:nth-child(6) { left: 40%; background: #ff5252; animation-delay: 1.0s; }
+.confetti span:nth-child(7) { left: 47%; background: #ffd740; animation-delay: 1.2s; }
+.confetti span:nth-child(8) { left: 54%; background: #69f0ae; animation-delay: 1.4s; }
+.confetti span:nth-child(9) { left: 61%; background: #40c4ff; animation-delay: 1.6s; }
+.confetti span:nth-child(10) { left: 68%; background: #ea80fc; animation-delay: 1.8s; }
+.confetti span:nth-child(11) { left: 75%; background: #ff5252; animation-delay: 0.1s; }
+.confetti span:nth-child(12) { left: 82%; background: #ffd740; animation-delay: 0.3s; }
+.confetti span:nth-child(13) { left: 89%; background: #69f0ae; animation-delay: 0.5s; }
+.confetti span:nth-child(14) { left: 96%; background: #40c4ff; animation-delay: 0.7s; }
+.confetti span:nth-child(15) { left: 8%; background: #ea80fc; animation-delay: 0.9s; }
+.confetti span:nth-child(16) { left: 23%; background: #ff5252; animation-delay: 1.1s; }
+.confetti span:nth-child(17) { left: 43%; background: #ffd740; animation-delay: 1.3s; }
+.confetti span:nth-child(18) { left: 63%; background: #69f0ae; animation-delay: 1.5s; }
+.confetti span:nth-child(19) { left: 78%; background: #40c4ff; animation-delay: 1.7s; }
+.confetti span:nth-child(20) { left: 93%; background: #ea80fc; animation-delay: 1.9s; }
+
+@keyframes fall {
+  0% { top: -20px; transform: rotate(0); }
+  100% { top: 110%; transform: rotate(720deg); }
+}
+
+.trophy {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  z-index: 2;
+}
+.scene-victory.active .trophy {
+  animation: trophyPop 0.8s 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+@keyframes trophyPop {
+  to { transform: translateX(-50%) scale(1); }
+}
+
+.trophy-cup {
+  width: 100px;
+  height: 110px;
+  background: linear-gradient(135deg, #ffd700, #ff8f00, #ffd700);
+  border-radius: 10px 10px 50% 50%;
+  position: relative;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+}
+.trophy-cup::before, .trophy-cup::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  width: 25px;
+  height: 50px;
+  border: 6px solid #ffd700;
+  border-radius: 50%;
+}
+.trophy-cup::before { left: -25px; border-right: none; }
+.trophy-cup::after { right: -25px; border-left: none; }
+
+.trophy-base {
+  width: 80px;
+  height: 30px;
+  background: linear-gradient(to bottom, #ff8f00, #5d4037);
+  margin: 5px auto 0;
+  border-radius: 4px;
+}
+
+.victory-text {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 2;
+}
+.victory-text span {
+  display: block;
+  font-size: clamp(40px, 8vw, 90px);
+  color: #fff;
+  letter-spacing: 6px;
+  text-shadow:
+    0 0 20px #ffd700,
+    0 0 40px #ff8f00,
+    4px 4px 0 #000;
+  opacity: 0;
+}
+.scene-victory.active .line1 { animation: victoryIn 0.6s 1.0s forwards; }
+.scene-victory.active .line2 { animation: victoryIn 0.6s 1.4s forwards; }
+
+@keyframes victoryIn {
+  0% { opacity: 0; transform: scale(2); filter: blur(10px); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+.victory-sub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(60px, 12vw, 140px);
+  color: #ffd700;
+  font-weight: bold;
+  opacity: 0;
+  text-shadow: 0 0 30px #ffd700;
+  z-index: 1;
+}
+.scene-victory.active .victory-sub {
+  animation: numberGlow 0.6s 1.8s forwards;
+}
+@keyframes numberGlow {
+  to { opacity: 0.3; }
+}
+
+/* ============ CONTROLES ============ */
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 20px;
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+#playBtn {
+  background: linear-gradient(135deg, #6c63ff, #00d9ff);
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#playBtn:hover { transform: scale(1.05); }
+
+.progress {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #6c63ff, #00d9ff);
+  transition: width 0.1s linear;
+}
+
+.timer {
+  color: #fff;
+  font-family: monospace;
+  font-size: 12px;
+  min-width: 110px;
+}
