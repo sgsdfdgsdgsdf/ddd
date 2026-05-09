@@ -536,13 +536,15 @@ def scene_security(t: float, dur: float) -> Image.Image:
     # padlock inside
     if e > 0.4:
         la = clamp((e - 0.4) / 0.6)
-        lk_w = int(120 * la)
-        lk_h = int(150 * la)
+        lk_w = max(40, int(120 * la))
+        lk_h = max(60, int(150 * la))
         lkx = cx - lk_w // 2
         lky = cy - lk_h // 2 + 6
         # body
-        d.rounded_rectangle([lkx, lky + 50, lkx + lk_w, lky + lk_h],
-                            radius=18, fill=PP_DARK + (int(230 * la),))
+        body_top = lky + min(50, lk_h - 20)
+        d.rounded_rectangle([lkx, body_top, lkx + lk_w, lky + lk_h],
+                            radius=min(18, (lk_h - 50) // 2),
+                            fill=PP_DARK + (int(230 * la),))
         # shackle
         d.arc([lkx + 18, lky - 10, lkx + lk_w - 18, lky + 90],
               start=180, end=360, fill=PP_DARK + (int(230 * la),), width=12)
